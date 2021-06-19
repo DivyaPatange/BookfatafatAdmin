@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
+  <link href="{{ asset('img/122.png') }}" rel="icon">
   <title>BookFatafat - Vendor - Login</title>
   <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -43,6 +43,7 @@
               <div class="col-lg-12">
                 <div class="login-form">
                   <div class="text-center">
+                    <img src="{{ asset('img/122.png') }}">
                     <h1 class="h4 text-gray-900 mb-4">Login</h1>
                   </div>
                   <form class="user" action="{{ route('vendor.login.submit') }}" method="POST">

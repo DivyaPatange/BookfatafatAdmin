@@ -6,6 +6,12 @@
 @endsection
 @section('content')
 <div class="row mb-3">
+    <div class="col-md-12">
+        <h3>Hello {{ Auth::guard('vendor')->user()->business_owner_name }}</h3>
+        <h5>Welcome to Bookfatafat!</h5>
+    </div>
+</div>
+<div class="row mb-3">
     <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
@@ -29,41 +35,41 @@
     <!-- Earnings (Annual) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
-        <div class="card-body">
-            <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">650</div>
-                <div class="mt-2 mb-0 text-muted text-xs">
-                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                <span>Since last years</span>
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">650</div>
+                    <div class="mt-2 mb-0 text-muted text-xs">
+                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                    <span>Since last years</span>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-shopping-cart fa-2x text-success"></i>
+                </div>
                 </div>
             </div>
-            <div class="col-auto">
-                <i class="fas fa-shopping-cart fa-2x text-success"></i>
-            </div>
-            </div>
-        </div>
         </div>
     </div>
     <!-- New User Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
-        <div class="card-body">
-            <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-uppercase mb-1">New User</div>
-                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
-                <div class="mt-2 mb-0 text-muted text-xs">
-                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
-                <span>Since last month</span>
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-uppercase mb-1">New User</div>
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
+                    <div class="mt-2 mb-0 text-muted text-xs">
+                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
+                    <span>Since last month</span>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-users fa-2x text-info"></i>
+                </div>
                 </div>
             </div>
-            <div class="col-auto">
-                <i class="fas fa-users fa-2x text-info"></i>
-            </div>
-            </div>
-        </div>
         </div>
     </div>
     <!-- Pending Requests Card Example -->

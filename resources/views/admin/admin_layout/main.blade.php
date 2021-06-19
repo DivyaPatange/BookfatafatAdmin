@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <link href="img/logo/logo.png" rel="icon">
+  <link href="{{ asset('img/122.png') }}" rel="icon">
   <title>Book Fatafat - @yield('title')</title>
   @include('admin.admin_layout.stylesheet')
   @yield('customcss')
