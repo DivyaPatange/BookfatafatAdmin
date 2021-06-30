@@ -8,11 +8,13 @@ use App\Http\Controllers\Auth\VendorLoginController;
 use App\Http\Controllers\Auth\VendorRegisterController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
-
+use App\Http\Controllers\Admin\AdminRoleController;
 
 // Vendor Controller
 use App\Http\Controllers\Vendor\ProductController;
 use App\Http\Controllers\Vendor\ServiceController;
+use App\Http\Controllers\Vendor\ProfileController;
+use App\Http\Controllers\Vendor\ChangePasswordController;
 
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\LoginController;
@@ -80,6 +82,10 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::delete('/time-slot/delete/{id}', [App\Http\Controllers\Admin\ServiceController::class, 'deleteServiceTime']);
     Route::post('/service-time/update', [App\Http\Controllers\Admin\ServiceController::class, 'updateServiceTime'])->name('service-time.update');
     Route::post('/service-time/add', [App\Http\Controllers\Admin\ServiceController::class, 'addServiceTime'])->name('service-time.add');
+    Route::resource('/users', AdminRoleController::class);
+    Route::post('/get-user', [AdminRoleController::class, 'getUser'])->name('get.user');
+    Route::post('/users/update', [AdminRoleController::class, 'updateUser']);
+
 });
 
 Auth::routes();
@@ -92,7 +98,7 @@ Route::prefix('vendors')->name('vendor.')->group(function() {
     Route::post('/login', [VendorLoginController::class, 'login'])->name('login.submit');
     Route::get('/register', [VendorRegisterController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [VendorRegisterController::class, 'register'])->name('register.submit');
-    Route::get('/', [App\Http\Controllers\Auth\VendorController::class, 'index'])->name('dashboard');
+    Route::get('/', [App\Http\Controllers\Auth\VendorController::class, 'index'])->name('dashboard')->middleware('vendor.status');
     Route::get('/logout', [VendorLoginController::class, 'logout'])->name('logout');
     Route::resource('product', ProductController::class);
     Route::get('/get-sub-category-list', [ProductController::class, 'getSubCategoryList']);
@@ -107,4 +113,10 @@ Route::prefix('vendors')->name('vendor.')->group(function() {
     Route::post('/service-time/update', [ServiceController::class, 'updateServiceTime'])->name('service-time.update');
     Route::post('/service-time/add', [ServiceController::class, 'addServiceTime'])->name('service-time.add');
 
+    // Profile Route
+    Route::resource('/profile', ProfileController::class);
+
+    // Change Password Route
+    Route::get('/change-password', [ChangePasswordController::class, 'index'])->name('change-password.index');
+    Route::post('/change-password/update', [ChangePasswordController::class, 'store'])->name('change-password.update');
 });

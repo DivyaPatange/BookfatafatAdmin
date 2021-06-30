@@ -619,7 +619,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal-lg" id="serviceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -638,6 +638,7 @@
                     <tr>
                       <th>Start Time</th>
                       <th>End Time</th>
+                      <th>Duration</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -678,7 +679,7 @@ $(document).ready(function(){
   var i = 1;
   $("#add1").click(function(){
     i++;
-    $('#serviceDiv').append('<tr id="row'+i+'"><td><input type="time" name="start_time" class="form-control name_list"/></td><td><input type="time" name="end_time" class="form-control name_list"/></td><td><button type="button" id="'+i+'" class="btn btn-sm add btn-success mr-2">Save</button><button type="button" name="remove" id="'+i+'" class="btn btn-sm btn-danger btn_remove1">X</button></td></tr>');  
+    $('#serviceDiv').append('<tr id="row'+i+'"><td><input type="time" name="start_time" class="form-control name_list"/></td><td><input type="time" name="end_time" class="form-control name_list"/></td><td></td><td><button type="button" id="'+i+'" class="btn btn-sm add btn-success mr-2">Save</button><button type="button" name="remove" id="'+i+'" class="btn btn-sm btn-danger btn_remove1">X</button></td></tr>');  
   });
 
   $(document).on('click', '.btn_remove1', function(){  
@@ -714,10 +715,10 @@ $('body').on('click', '#submitButton', function () {
   var to_time = $("#to_time").val();
   var TableData = new Array();
   $('#dynamic_field tr').each(function(row, tr) {
-      TableData[row] = {
-      "from": $(tr).find("input[name='from_time']").val(),
-      "to": $(tr).find("input[name='to_time']").val()
-      }//tableData[row]
+    TableData[row] = {
+    "from": $(tr).find("input[name='from_time']").val(),
+    "to": $(tr).find("input[name='to_time']").val()
+    }//tableData[row]
   });
   TableData.shift(); // first row will be empty - so remove
   var Data;
@@ -759,6 +760,10 @@ $('body').on('click', '#submitButton', function () {
         oTable.fnDraw(false);
         toastr.success(returndata.success);
       }
+      // error:function(returndata)
+      // {
+      //   console.log(returndata);
+      // }
     });
   }
 })

@@ -15,20 +15,43 @@
     <div class="sidebar-heading">
     Features
     </div>
+    <?php 
+        $userRole = Auth::guard('admin')->user()->role_access;
+        $explodeRole = explode(",", $userRole);
+        // dd($explodeRole);
+    ?>
+    @if(in_array("User", $explodeRole))
     <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
-        aria-expanded="true" aria-controls="collapseBootstrap">
-        <i class="far fa-fw fa-window-maximize"></i>
-        <span>Vendor</span>
-    </a>
-    <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Vendor</h6>
-        <a class="collapse-item" href="{{ route('admin.vendorUser.create') }}">Add Vendor</a>
-        <a class="collapse-item" href="{{ route('admin.vendorUser.index') }}">Vendor List</a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true"
+            aria-controls="collapsePage">
+            <i class="fas fa-fw fa-columns"></i>
+            <span>Users</span>
+        </a>
+        <div id="collapsePage" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Users</h6>
+                <a class="collapse-item" href="{{ route('admin.users.create') }}">Add User</a>
+                <a class="collapse-item" href="{{ route('admin.users.index') }}">User List</a>
+            </div>
         </div>
-    </div>
     </li>
+    @endif
+    @if(in_array("Vendor", $explodeRole))
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
+            aria-expanded="true" aria-controls="collapseBootstrap">
+            <i class="far fa-fw fa-window-maximize"></i>
+            <span>Vendor</span>
+        </a>
+        <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Vendor</h6>
+            <a class="collapse-item" href="{{ route('admin.vendorUser.create') }}">Add Vendor</a>
+            <a class="collapse-item" href="{{ route('admin.vendorUser.index') }}">Vendor List</a>
+            </div>
+        </div>
+    </li>
+    @endif
     <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true"
             aria-controls="collapseForm">
@@ -57,51 +80,42 @@
             </div>
         </div>
     </li> -->
-    
+    @if(in_array("Category", $explodeRole))
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.categories.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Category</span>
         </a>
     </li>
+    @endif
+    @if(in_array("Sub-Category", $explodeRole))
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.sub-category.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Sub Category</span>
         </a>
     </li>
+    @endif
+    @if(in_array("Product", $explodeRole))
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.products.index') }}">
             <i class="fas fa-fw fa-palette"></i>
             <span>Product</span>
         </a>
     </li>
+    @endif
+    @if(in_array("Services", $explodeRole))
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.services.index') }}">
             <i class="fas fa-fw fa-palette"></i>
             <span>Services</span>
         </a>
     </li>
+    @endif
     <hr class="sidebar-divider">
-    <div class="sidebar-heading">
+    <!-- <div class="sidebar-heading">
         Examples
     </div>
-    <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true"
-        aria-controls="collapsePage">
-        <i class="fas fa-fw fa-columns"></i>
-        <span>Pages</span>
-    </a>
-    <div id="collapsePage" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Example Pages</h6>
-            <a class="collapse-item" href="login.html">Login</a>
-            <a class="collapse-item" href="register.html">Register</a>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
-        </div>
-    </div>
-    </li>
     <hr class="sidebar-divider">
-    <div class="version" id="version-ruangadmin"></div>
+    <div class="version" id="version-ruangadmin"></div> -->
 </ul>

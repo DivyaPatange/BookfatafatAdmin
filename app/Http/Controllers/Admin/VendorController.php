@@ -176,9 +176,10 @@ class VendorController extends Controller
             'aadhar_img' => $image_name,
             'pan_img' => $image_name1,
             'shop_img' => $image_name2,
+            'status' => $request->status,
         );
         $vendor = Vendor::whereId($id)->update($input_data);
-        return redirect('/admin/vendors')->with('success', 'Vendor Updated Successfully');
+        return redirect('/admin/vendorUser')->with('success', 'Vendor Updated Successfully');
     }
 
     /**

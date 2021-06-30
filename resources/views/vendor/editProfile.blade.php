@@ -1,6 +1,6 @@
-@extends('admin.admin_layout.main')
-@section('title', 'Vendor')
-@section('page_title', 'Edit Vendor')
+@extends('vendor.vendor_layout.main')
+@section('title', 'Edit Profile')
+@section('page_title', 'Edit Profile')
 @section('customcss')
 <link href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 @endsection
@@ -10,10 +10,10 @@
         <!-- Form Basic -->
         <div class="card mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Edit Vendor</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Edit Profile</h6>
             </div>
             <div class="card-body">
-                <form method="POST" id="submitForm" action="{{ route('admin.vendorUser.update', $vendor->id) }}" enctype="multipart/form-data">
+                <form method="POST" id="submitForm" action="{{ route('vendor.profile.update', $vendor->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -103,19 +103,9 @@
                             @endif
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="status">Status</label> <span  style="color:red" id="status_err"> </span>
-                            <select name="status" class="form-control" id="status">
-                                <option value="">-Select Status-</option>
-                                <option value="Active" @if($vendor->status == "Active") Selected @endif>Active</option>
-                                <option value="Inactive" @if($vendor->status == "Inactive") Selected @endif>Inactive</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
                 
-                <button type="button" id="submitButton" class="btn btn-primary">Update</button>
+                    <button type="button" id="submitButton" class="btn btn-primary">Update</button>
                 </form>
             </div>
         </div>
@@ -144,7 +134,7 @@ $('body').on('click', '#submitButton', function () {
     var busi_start_date = $("#busi_start_date").val();
     var busi_location = $("#busi_location").val();
     var busi_address = $("#busi_address").val();
-    var status = $('#status').val();
+    // var service = $('#service').val();
     if (owner_name=="") {
         $("#owner_err").fadeIn().html("Required");
         setTimeout(function(){ $("#owner_err").fadeOut(); }, 3000);
@@ -181,12 +171,12 @@ $('body').on('click', '#submitButton', function () {
         $("#busi_address").focus();
         return false;
     }
-    if (status=="") {
-        $("#status_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#status_err").fadeOut(); }, 3000);
-        $("#status").focus();
-        return false;
-    }
+    // if (service=="") {
+    //     $("#service_err").fadeIn().html("Required");
+    //     setTimeout(function(){ $("#service_err").fadeOut(); }, 3000);
+    //     $("#service").focus();
+    //     return false;
+    // }
     else
     { 
         $("#submitForm").submit();

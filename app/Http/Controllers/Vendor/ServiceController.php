@@ -113,7 +113,7 @@ class ServiceController extends Controller
     public function show($id)
     {
         $service = Service::findorfail($id);
-        $availableDate = AvailableDate::where('vendor_id', Auth::guard('vendor')->user()->id)->where('service_id', $id)->get();
+        $availableDate = AvailableDate::where('vendor_id', Auth::guard('vendor')->user()->id)->where('service_id', $id)->orderBy('id', 'DESC')->get();
         if(request()->ajax()) {
             return datatables()->of($availableDate)
             ->addColumn('total_quantity', function($row){    
@@ -242,25 +242,37 @@ class ServiceController extends Controller
             
         for($i=0; $i < count($explodeDate); $i++)
         {
-            $markDate = AvailableDate::create([
-                'vendor_id' => Auth::guard('vendor')->user()->id,
-                'service_id' => $request->service,
-                'available_date' => date("Y-m-d", strtotime($explodeDate[$i])),
-                'total_quantity' => $request->quantity,
-                'remain_quanity' => $request->quantity,
-                'status' => "Available",
-            ]);
-            for($j=0; $j < count($obj); $j++)
-            {
-                if(($obj[$j]["from"] != '') && ($obj[$j]["to"] != ''))
+            $date = AvailableDate::where('available_date', $explodeDate[$i])->where('status', 'Available')->first();
+            if(empty($date)){
+                $markDate = AvailableDate::create([
+                    'vendor_id' => Auth::guard('vendor')->user()->id,
+                    'service_id' => $request->service,
+                    'available_date' => date("Y-m-d", strtotime($explodeDate[$i])),
+                    'total_quantity' => $request->quantity,
+                    'remain_quanity' => $request->quantity,
+                    'status' => "Available",
+                ]);
+                for($j=0; $j < count($obj); $j++)
                 {
-                    $timeSlot = new ServiceTimeSlot();
-                    $timeSlot->vendor_id = Auth::guard('vendor')->user()->id;
-                    $timeSlot->service_id = $request->service;
-                    $timeSlot->available_date_id = $markDate->id;
-                    $timeSlot->from_time = date("H:i", strtotime($obj[$j]["from"]));
-                    $timeSlot->to_time = date("H:i", strtotime($obj[$j]["to"]));
-                    $timeSlot->save();
+                    if(($obj[$j]["from"] != '') && ($obj[$j]["to"] != ''))
+                    {
+                        // return $markDate->available_date." ".date("h:i:s a", strtotime($obj[$j]["from"]));
+                        $date1 = date("Y-m-d h:i:s A", strtotime($markDate->available_date.' '.$obj[$j]["from"]));
+                        $date2 = date("Y-m-d h:i:s A", strtotime($markDate->available_date.' '.$obj[$j]["to"]));
+                        $datetime1 = new DateTime($date1);
+                        // return $datetime1;
+                        $datetime2 = new DateTime($date2);
+                        $interval = $datetime1->diff($datetime2);
+                        $interval->format('%h')." Hours ".$interval->format('%i')." Minutes";
+                        $timeSlot = new ServiceTimeSlot();
+                        $timeSlot->vendor_id = Auth::guard('vendor')->user()->id;
+                        $timeSlot->service_id = $request->service;
+                        $timeSlot->available_date_id = $markDate->id;
+                        $timeSlot->from_time = date("H:i", strtotime($obj[$j]["from"]));
+                        $timeSlot->to_time = date("H:i", strtotime($obj[$j]["to"]));
+                        $timeSlot->duration = $interval->format('%h')." Hours ".$interval->format('%i')." Minutes";
+                        $timeSlot->save();
+                    }
                 }
             }
         }
@@ -315,7 +327,8 @@ class ServiceController extends Controller
         {
             $service .= '<tr>'.
             '<td><input type="time" name="start_time" class="form-control" value="'.$t->from_time.'"></td>'.
-            '<td><input type="time" name="end_time" class="form-control" value="'.$t->to_time.'"></td>'.
+            '<td><input type="time" name="end_time" class="form-control" value="'.$t->to_time.'"></td>'. 
+            '<td>'.$t->duration.'</td>'.
             '<td><button type="button" id="editTime" data-id="'.$t->id.'" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></button>
                 <button id="deleteTime" data-id="'.$t->id.'" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
             </td>'.
