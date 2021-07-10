@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\VendorRegisterController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\AdminRoleController;
+use App\Http\Controllers\Admin\OrderPlacedController;
 
 // Vendor Controller
 use App\Http\Controllers\Vendor\ProductController;
@@ -85,7 +86,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/users', AdminRoleController::class);
     Route::post('/get-user', [AdminRoleController::class, 'getUser'])->name('get.user');
     Route::post('/users/update', [AdminRoleController::class, 'updateUser']);
-
+    Route::get('/placed-order', [OrderPlacedController::class, 'index'])->name('placed-order');
+    Route::get('/view-placed-order/{id}', [OrderPlacedController::class, 'show'])->name('view-placed-order');
 });
 
 Auth::routes();

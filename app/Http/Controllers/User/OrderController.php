@@ -48,6 +48,7 @@ class OrderController extends Controller
                 $product = Product::where('product_name', $item->name)->first();
     
                 $orderItem = new OrderItem([
+                    'vendor_id'     =>  $product->vendor_id,
                     'product_id'    =>  $product->id,
                     'quantity'      =>  $item->quantity,
                     'price'         =>  $item->getPriceSum()
@@ -250,10 +251,10 @@ class OrderController extends Controller
     public function userPaymentDetails()
     {
         $payment = DB::table('payments')->join('orders','orders.id', '=', 'payments.order_id')
-                    ->join('users','users.id', '=', 'orders.user_id')
-                    ->where('users.id', Auth::user()->id)
-                    ->select('payments.*')
-                    ->get();
+        ->join('users','users.id', '=', 'orders.user_id')
+        ->where('users.id', Auth::user()->id)
+        ->select('payments.*')
+        ->get();
         if(request()->ajax())
         {
             return datatables()->of($payment)

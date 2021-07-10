@@ -113,6 +113,12 @@
     </li>
     @endif
     <hr class="sidebar-divider">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.placed-order') }}">
+            <i class="fas fa-fw fa-palette"></i>
+            <span>Placed Order</span>
+        </a>
+    </li>
     <!-- <div class="sidebar-heading">
         Examples
     </div>
