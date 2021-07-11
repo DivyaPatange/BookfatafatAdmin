@@ -121,4 +121,6 @@ Route::prefix('vendors')->name('vendor.')->group(function() {
     // Change Password Route
     Route::get('/change-password', [ChangePasswordController::class, 'index'])->name('change-password.index');
     Route::post('/change-password/update', [ChangePasswordController::class, 'store'])->name('change-password.update');
+    Route::get('/placed-order', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'index'])->name('placed-order');
+    Route::get('/view-placed-order/{id}', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'show'])->name('view-placed-order');
 });

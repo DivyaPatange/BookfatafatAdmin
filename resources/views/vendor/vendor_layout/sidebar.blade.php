@@ -44,6 +44,12 @@
             </div>
         </div>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('vendor.placed-order') }}">
+            <i class="fas fa-fw fa-palette"></i>
+            <span>Placed Order</span>
+        </a>
+    </li>
     <!-- <li class="nav-item">
         <a class="nav-link" href="ui-colors.html">
             <i class="fas fa-fw fa-palette"></i>
