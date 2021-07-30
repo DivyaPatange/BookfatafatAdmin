@@ -41,7 +41,11 @@ class OrderPlacedController extends Controller
             ->addColumn('grand_total', function($row){ 
                 return '<i class="fas fa-rupee">&nbsp;</i>'.$row->grand_total;
             })
-            ->rawColumns(['action', 'payment_status', 'grand_total'])
+            ->addColumn('invoice_file', function($row){ 
+                $filePath = 'http://127.0.0.1:8000/Invoice/'.$row->invoice_file;
+                return '<a class="btn btn-warning btn-sm text-white" target="_blank" href="'.$filePath.'"><i class="fas fa-file"></i></a>';
+            })
+            ->rawColumns(['action', 'payment_status', 'grand_total', 'invoice_file'])
             ->addIndexColumn()
             ->make(true);
         }

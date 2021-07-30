@@ -53,7 +53,7 @@
                         <div class="form-group">
                             <label for="">Product Image</label> <span  style="color:red" id="img_err"> </span>
                             <div class="custom-file">
-                            <input type="file" name="product_img" class="custom-file-input" id="customFile">
+                            <input type="file" name="product_img[]" class="custom-file-input" id="customFile" multiple="true">
                             <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                         </div>

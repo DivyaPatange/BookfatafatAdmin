@@ -1,3 +1,6 @@
+<a href="{{ route('vendor.product.show', $id) }}" class="btn btn-primary btn-sm">
+    <i class="fas fa-eye"></i>
+</a>
 <a href="{{ route('vendor.product.edit', $id) }}"><button class="btn btn-warning btn-sm" >
     <i class="fas fa-pencil-alt"></i>
 </button></a>

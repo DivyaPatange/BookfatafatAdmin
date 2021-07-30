@@ -100,6 +100,7 @@ tr.shown td.details-control:before{
                             <th>Selling Price</th>
                             <th>Cost Price</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -111,6 +112,7 @@ tr.shown td.details-control:before{
                             <th>Selling Price</th>
                             <th>Cost Price</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -176,6 +178,7 @@ $(document).ready(function() {
                 { data: 'selling_price', name: 'selling_price' },
                 { data: 'cost_price', name: 'cost_price' },
                 { data: 'status', name: 'status' },
+                { data: 'action', name: 'action' },
             ],
         order: [[0, 'desc']]
         })

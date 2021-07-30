@@ -26,9 +26,10 @@ class ProductController extends Controller
         $products = Product::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
         if(request()->ajax()) {
             return datatables()->of($products)
-            ->addColumn('product_img', function($row){    
+            ->addColumn('product_img', function($row){  
+                $explodeImg = explode(",", $row->product_img);  
                 if(!empty($row->product_img)){
-                    $imageUrl = asset('ProductImg/' . $row->product_img);
+                    $imageUrl = asset('ProductImg/' . $explodeImg[0]);
                     return '<img src="'.$imageUrl.'" width="50px">';
                 }                                                                                                                                                                                                                                                                                      
             })
@@ -95,14 +96,16 @@ class ProductController extends Controller
         $product->category_id = $request->category;
         $product->sub_category_id = $request->sub_category;
         $product->product_name = $request->product_name;
-        $image = $request->file('product_img');
-        // dd($request->file('photo'));
-        if($image != '')
+        if($request->hasfile('product_img'))
         {
-            $image_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('ProductImg'), $image_name);
-            $product->product_img =$image_name;
+            foreach($request->file('product_img') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('ProductImg'), $name);  
+                $files[] = $name;  
+            }
         }
+        $product->product_img = implode(",", $files);
         $product->selling_price = $request->selling_price;
         $product->cost_price = $request->cost_price;
         $product->description = $request->description;
@@ -119,7 +122,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::findorfail($id);
+        return view('vendor.product.show', compact('product'));
     }
 
     /**
@@ -179,7 +183,10 @@ class ProductController extends Controller
     {
         $product = Product::findorfail($id);
         if($product->product_img){
-            unlink(public_path('ProductImg/'.$product->product_img));
+            $explodeProduct = explode(",", $product->product_img);
+            for($i=0; $i<count($explodeProduct); $i++){
+            unlink(public_path('ProductImg/'.$explodeProduct[$i]));
+            }
         }
         $product->delete();
         return response()->json(['success' => 'Product Deleted Successfully!']);

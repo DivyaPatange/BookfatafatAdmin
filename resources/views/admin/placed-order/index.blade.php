@@ -105,6 +105,10 @@ function format ( d ) {
             '<td style="text-align:center">Action</td>'+
             '<td style="text-align:center">'+d.action+'</td>'+
         '</tr>'+
+        '<tr>'+
+            '<td style="text-align:center">Invoice</td>'+
+            '<td style="text-align:center">'+d.invoice_file+'</td>'+
+        '</tr>'+
     '</table>';
 }
 $(document).ready(function() {

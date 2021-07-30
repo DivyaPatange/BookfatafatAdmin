@@ -54,17 +54,6 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Product Image</label> <span  style="color:red" id="img_err"> </span>
-                            <div class="custom-file">
-                            <input type="file" name="product_img" class="custom-file-input" id="customFile">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
-                        </div>
-                        <input type="hidden" name="hidden_image" value="{{$product->product_img}}">
-                        <a href="{{  URL::asset('ProductImg/' . $product->product_img) }}" target="_blank" class="mt-3"> Click to view</a>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
                             <label for="selling_price">Selling Price</label> <span  style="color:red" id="sell_err"> </span>
                             <input type="number" name="selling_price" class="form-control" id="selling_price" placeholder="Enter Selling Price" value="{{ $product->selling_price }}">
                         </div>
@@ -92,6 +81,32 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">          
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Product Image</label> <span  style="color:red" id="img_err"> </span>
+                            <button type="button" class="btn btn-primary btn-sm">Add Photo</button>
+                        </div>
+                        <input type="hidden" name="hidden_image" value="{{$product->product_img}}">
+                        <?php
+                            $explodeImg = explode(",", $product->product_img);
+                        ?>
+                    </div>
+                </div>
+                    <div class="row">
+                        @for($i=0; $i < count($explodeImg); $i++)
+                        <div class="col-md-2 col-sm-3 col-3">
+                            <div class="card">
+                                <div class="card-header p-1">
+                                    <img src="{{  URL::asset('ProductImg/' . $explodeImg[$i]) }}" alt="" width="100%" height="100px">
+                                </div>
+                                <div class="card-body p-1">
+                                    <button type="button" class="btn btn-danger btn-sm btn-block">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        @endfor
+                    </div>
                 
                 <button type="button" id="submitButton" class="btn btn-primary">Update</button>
                 </form>

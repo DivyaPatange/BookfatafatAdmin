@@ -42,7 +42,8 @@ class ProductController extends Controller
             return datatables()->of($products)
             ->addColumn('product_img', function($row){    
                 if(!empty($row->product_img)){
-                    $imageUrl = asset('ProductImg/' . $row->product_img);
+                    $explodeImg = explode(",", $row->product_img);
+                    $imageUrl = asset('ProductImg/' . $explodeImg[0]);
                     return '<img src="'.$imageUrl.'" width="50px">';
                 }                                                                                                                                                                                                                                                                                                 
             })
@@ -76,7 +77,13 @@ class ProductController extends Controller
                    return $subCategory->sub_category;
                 }                                                                                                                                                                                                                                                                                       
             })
-            ->rawColumns(['product_img', 'vendor_id', 'status', 'category_id'])
+            ->addColumn('action', function($row){
+                $route = route('admin.products.show', $row->id);
+                return '<a href="'.$route.'" class="btn btn-primary btn-sm">
+                    <i class="fas fa-eye"></i>
+                </a>';
+            })
+            ->rawColumns(['product_img', 'vendor_id', 'status', 'category_id', 'action'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -119,7 +126,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::findorfail($id);
+        return view('admin.product.show', compact('product'));
     }
 
     /**
