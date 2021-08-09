@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\OrderPlacedController;
+use App\Http\Controllers\Admin\ListController;
 
 // Vendor Controller
 use App\Http\Controllers\Vendor\ProductController;
@@ -88,6 +89,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::post('/users/update', [AdminRoleController::class, 'updateUser']);
     Route::get('/placed-order', [OrderPlacedController::class, 'index'])->name('placed-order');
     Route::get('/view-placed-order/{id}', [OrderPlacedController::class, 'show'])->name('view-placed-order');
+    Route::get('/today-register-list', [ListController::class, 'todayRegisterUser'])->name('todayRegisterUser');
+    Route::get('/today-placed-order', [ListController::class, 'todayOrderPlaced'])->name('todayOrderPlaced');
+    Route::get('/today-payment-collection', [ListController::class, 'todayPaymentCollection'])->name('todayPaymentCollection');
 });
 
 Auth::routes();

@@ -1,3 +1,6 @@
+<?php
+use Carbon\Carbon;
+?>
 <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
     <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
     <i class="fa fa-bars"></i>
@@ -23,51 +26,80 @@
         </form>
         </div>
     </li>
+        <?php 
+            $todayRegisterUser = DB::table('users')->where('created_at', '>=', Carbon::today())->get();
+            $todayPaymentCollection = DB::table('payments')->where('created_at', '>=', Carbon::today())->get();
+            $todayOrderPlaced = DB::table('orders')->where('created_at', '>=', Carbon::today())->get();
+            if(count($todayRegisterUser) > 0)
+            {
+                $count = 1;
+            }
+            else{
+                $count = 0;
+            }
+            if(count($todayPaymentCollection) > 0)
+            {
+                $count1 = 1;
+            }
+            else{
+                $count1 = 0;
+            }
+            if(count($todayOrderPlaced) > 0)
+            {
+                $count2 = 1;
+            }
+            else{
+                $count2 = 0;
+            }
+            $total = $count + $count1 + $count2;
+        ?>
     <li class="nav-item dropdown no-arrow mx-1">
         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
-        <span class="badge badge-danger badge-counter">3+</span>
+        <span class="badge badge-danger badge-counter">{{ $total }}</span>
         </a>
         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
         aria-labelledby="alertsDropdown">
         <h6 class="dropdown-header">
             Alerts Center
         </h6>
-        <a class="dropdown-item d-flex align-items-center" href="#">
+        @if(count($todayRegisterUser) > 0)
+        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.todayRegisterUser') }}">
             <div class="mr-3">
             <div class="icon-circle bg-primary">
-                <i class="fas fa-file-alt text-white"></i>
+                <i class="text-white">{{ count($todayRegisterUser) }}</i>
             </div>
             </div>
             <div>
-            <div class="small text-gray-500">December 12, 2019</div>
-            <span class="font-weight-bold">A new monthly report is ready to download!</span>
+            <span class="font-weight-bold">Todays Registered User!</span>
             </div>
         </a>
-        <a class="dropdown-item d-flex align-items-center" href="#">
-            <div class="mr-3">
-            <div class="icon-circle bg-success">
-                <i class="fas fa-donate text-white"></i>
-            </div>
-            </div>
-            <div>
-            <div class="small text-gray-500">December 7, 2019</div>
-            $290.29 has been deposited into your account!
-            </div>
-        </a>
-        <a class="dropdown-item d-flex align-items-center" href="#">
+        @endif
+        @if(count($todayOrderPlaced) > 0)
+        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.todayOrderPlaced') }}">
             <div class="mr-3">
             <div class="icon-circle bg-warning">
-                <i class="fas fa-exclamation-triangle text-white"></i>
+                <i class="text-white">{{ count($todayOrderPlaced) }}</i>
             </div>
             </div>
             <div>
-            <div class="small text-gray-500">December 2, 2019</div>
-            Spending Alert: We've noticed unusually high spending for your account.
+            <span class="font-weight-bold">Todays Order Placed!</span>
             </div>
         </a>
-        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+        @endif
+        @if(count($todayPaymentCollection) > 0)
+        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.todayPaymentCollection') }}">
+            <div class="mr-3">
+            <div class="icon-circle bg-success">
+                <i class="text-white">{{ count($todayPaymentCollection) }}</i>
+            </div>
+            </div>
+            <div>
+            <span class="font-weight-bold">Todays Payment Collection!</span>
+            </div>
+        </a>
+        @endif
         </div>
     </li>
     <!-- <li class="nav-item dropdown no-arrow mx-1">

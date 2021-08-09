@@ -33,7 +33,7 @@ class OrderPlacedController extends Controller
             return datatables()->of($countOrder)
             ->addColumn('payment_status', function($row){
                 $order = Order::where('id', $row)->first();    
-                if($order->status == "completed")
+                if($order->payment_status == "Completed")
                 {
                     return '<span class="badge badge-success">Completed</span>';
                 }  
@@ -68,7 +68,14 @@ class OrderPlacedController extends Controller
                 $order = Order::where('id', $row)->first(); 
                 return '<i class="fas fa-rupee">&nbsp;</i>'.$order->grand_total;
             })
-            ->rawColumns(['action', 'payment_status', 'grand_total'])
+            ->addColumn('invoice_file', function($row){ 
+                $payment = DB::table('payments')->where('order_id', $row)->first(); 
+                if(!empty($payment)){
+                $filePath = 'https://bookfatafat.com/Invoice/'.$payment->invoice_file;
+                return '<a class="btn btn-warning btn-sm text-white" target="_blank" href="'.$filePath.'"><i class="fas fa-file"></i></a>';
+                }
+            })
+            ->rawColumns(['action', 'payment_status', 'grand_total', 'invoice_file'])
             ->addIndexColumn()
             ->make(true);
         }
