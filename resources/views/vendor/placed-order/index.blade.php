@@ -105,6 +105,14 @@ function format ( d ) {
             '<td style="text-align:center">Action</td>'+
             '<td style="text-align:center">'+d.action+'</td>'+
         '</tr>'+
+        '<tr>'+
+            '<td style="text-align:center">Is Ship?</td>'+
+            '<td style="text-align:center">'+d.is_ship+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="text-align:center">Is Deliver?</td>'+
+            '<td style="text-align:center">'+d.is_deliver+'</td>'+
+        '</tr>'+
     '</table>';
 }
 $(document).ready(function() {
@@ -146,6 +154,43 @@ $(document).ready(function() {
             tr.addClass('shown');
         }
     });
+});
+
+$('body').on('click', '#customSwitch1', function () {
+    var id = $(this).data("id");
+    // alert(id);
+    if(id){
+        $.ajax({
+            type: "post",
+            url: "{{ url('vendors/is-ship') }}"+'/'+id,
+            success: function (data) {
+            var oTable = $('#dataTableHover').dataTable(); 
+            oTable.fnDraw(false);
+            toastr.success(data.success);
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    }
+});
+
+$('body').on('click', '#customSwitch2', function () {
+    var id = $(this).data("id");
+    if(id){
+        $.ajax({
+            type: "post",
+            url: "{{ url('vendors/is-deliver') }}"+'/'+id,
+            success: function (data) {
+            var oTable = $('#dataTableHover').dataTable(); 
+            oTable.fnDraw(false);
+            toastr.success(data.success);
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    }
 });
 </script>
 @endsection

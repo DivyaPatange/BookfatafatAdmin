@@ -41,16 +41,47 @@ class OrderPlacedController extends Controller
                     return '<span class="badge badge-danger">Pending</span>';
                 }                                                                                                                                                                                                                                                                                       
             })
+            ->addColumn('is_ship', function($row){
+                $order = Order::where('id', $row)->first();    
+                if($order->is_ship == "Yes")
+                {
+                    return '<div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" checked data-id="'.$order->id.'">
+                    <label class="custom-control-label" for="customSwitch1"></label>
+                  </div>';
+                }  
+                else{
+                    return '<div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" data-id="'.$order->id.'">
+                    <label class="custom-control-label" for="customSwitch1"></label>
+                  </div>';
+                }                                                                                                                                                                                                                                                                                       
+            })
+            ->addColumn('is_deliver', function($row){
+                $order = Order::where('id', $row)->first();    
+                if($order->is_deliver == "Yes")
+                {
+                    return '<div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch2" checked data-id="'.$order->id.'">
+                    <label class="custom-control-label" for="customSwitch2"></label>
+                  </div>';
+                }  
+                else{
+                    return '<div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch2" data-id="'.$order->id.'">
+                    <label class="custom-control-label" for="customSwitch2"></label>
+                  </div>';
+                }                                                                                                                                                                                                                                                                                       
+            })
             ->addColumn('action', function($row){
-                $route = route('admin.view-placed-order', $row);
+                $route = route('vendor.view-placed-order', $row);
                 return '<a href="'.$route.'" class="btn btn-primary btn-sm">
                 <i class="fas fa-eye"></i>
                 </a>';
             })
             ->addColumn('user_name', function($row){
                 $order = Order::where('id', $row)->first(); 
-                $user = User::where('id', $order->user_id)->first();
-                return $user->name;
+                return $order->name;
             })
             ->addColumn('mobile_no', function($row){
                 $order = Order::where('id', $row)->first(); 
@@ -75,7 +106,7 @@ class OrderPlacedController extends Controller
                 return '<a class="btn btn-warning btn-sm text-white" target="_blank" href="'.$filePath.'"><i class="fas fa-file"></i></a>';
                 }
             })
-            ->rawColumns(['action', 'payment_status', 'grand_total', 'invoice_file'])
+            ->rawColumns(['action', 'payment_status', 'grand_total', 'invoice_file', 'is_ship', 'is_deliver'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -86,5 +117,33 @@ class OrderPlacedController extends Controller
     {
         $order = Order::findorfail($id);
         return view('vendor.placed-order.show', compact('order'));
+    }
+
+    public function isShip(Request $request, $id)
+    {
+        $order = Order::findorfail($id);
+        if($order->is_ship == "Yes")
+        {
+            $order->is_ship = "No";
+        }
+        else{
+            $order->is_ship = "Yes";
+        }
+        $order->update($request->all());
+        return response()->json(['success' => 'Shipping Status Changed Successfully!']);
+    }
+
+    public function isDeliver(Request $request, $id)
+    {
+        $order = Order::findorfail($id);
+        if($order->is_deliver == "Yes")
+        {
+            $order->is_deliver = "No";
+        }
+        else{
+            $order->is_deliver = "Yes";
+        }
+        $order->update($request->all());
+        return response()->json(['success' => 'Order Deliver Status Changed Successfully!']);
     }
 }

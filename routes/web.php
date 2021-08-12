@@ -127,4 +127,7 @@ Route::prefix('vendors')->name('vendor.')->group(function() {
     Route::post('/change-password/update', [ChangePasswordController::class, 'store'])->name('change-password.update');
     Route::get('/placed-order', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'index'])->name('placed-order');
     Route::get('/view-placed-order/{id}', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'show'])->name('view-placed-order');
+    Route::post('/is-ship/{id}', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'isShip'])->name('is-ship');
+    Route::post('/is-deliver/{id}', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'isDeliver'])->name('is-deliver');
+
 });

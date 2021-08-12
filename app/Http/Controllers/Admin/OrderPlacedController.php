@@ -37,10 +37,7 @@ class OrderPlacedController extends Controller
                 </a>';
             })
             ->addColumn('user_name', function($row){
-                $user = User::where('id', $row->user_id)->first();
-                if(!empty($user)){
-                return $user->name;
-                }
+                return $row->name;
             })
             ->addColumn('grand_total', function($row){ 
                 return '<i class="fas fa-rupee">&nbsp;</i>'.$row->grand_total;
