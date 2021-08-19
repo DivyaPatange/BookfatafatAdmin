@@ -94,8 +94,38 @@ class VendorController extends Controller
         $vendor->show_pwd = $request->password;
         $id = mt_rand(10000,99999);
         $vendor->username = "BFT".$id;
+        $vendor->mobile_no = $request->mobile_no;
         $vendor->save();
+
+        $message = "Hello+".urlencode($request->owner_name)."%0aWelcome+to+Bookfatafat+"."%0aYour+Vendor+Login+credentials+are+as+follows:%0aUsername:-+".$vendor->username."%0aPassword:-+".$request->password."%0aYou+can+login+to+your+vendor+account+here%0ahttps://admin.bookfatafat.com/vendors/login"."%0aThanks+Bookfatafat+Team";
+        // dd($message);
+                    
+        $number = $request->mobile_no;
+    
+        $this->sendSms($message,$number); 
+        // dd($this->sendSms($message,$number));   
         return redirect('/admin/vendorUser')->with('success', 'Vendor Added Successfully!');
+    }
+
+    public function sendSms($message,$number)
+    {
+        $url = 'http://sms.bulksmsind.in/sendSMS?username=bookfatafat&message='.$message.'&sendername=BOOKFT&smstype=TRANS&numbers='.$number.'&apikey=22139f55-b446-462b-b035-bf7f4e3e4d33&peid=1201162071979493351&templateid=1207162869874494100';
+
+        $ch = curl_init();  
+        
+       
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, true);
+    	// curl_setopt($ch, CURLOPT_POSTFIELDS, $url);
+    	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    	
+    	curl_setopt($ch,CURLOPT_HEADER, false);
+     
+        $output=curl_exec($ch);
+     
+        curl_close($ch);
+       
+        return $output;
     }
 
     /**
@@ -177,6 +207,7 @@ class VendorController extends Controller
             'pan_img' => $image_name1,
             'shop_img' => $image_name2,
             'status' => $request->status,
+            'mobile_no' => $request->mobile_no,
         );
         $vendor = Vendor::whereId($id)->update($input_data);
         return redirect('/admin/vendorUser')->with('success', 'Vendor Updated Successfully');

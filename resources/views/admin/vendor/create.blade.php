@@ -64,29 +64,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Aadhar Image</label>
-                            <div class="custom-file">
-                            <input type="file" name="aadhar_img" class="custom-file-input" id="customFile">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="">Pan Image</label>
-                            <div class="custom-file">
-                            <input type="file" name="pan_img" class="custom-file-input" id="customFile1">
-                            <label class="custom-file-label" for="customFile1">Choose file</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="">Business Shop Image</label>
-                            <div class="custom-file">
-                            <input type="file" name="shop_img" class="custom-file-input" id="customFile2">
-                            <label class="custom-file-label" for="customFile2">Choose file</label>
-                            </div>
+                            <label for="mobile_no">Mobile No.</label> <span  style="color:red" id="mobile_err"> </span>
+                            <input type="number" name="mobile_no" class="form-control" id="mobile_no" placeholder="Enter Mobile No.">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -99,6 +78,33 @@
                         <div class="form-group">
                             <label for="con_pwd">Confirm Password</label> <span  style="color:red" id="con_pwd_err"> </span>
                             <input type="password" name="password_confirmation" class="form-control" id="con_pwd" placeholder="Enter Confirm Password">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Aadhar Image</label>
+                            <div class="custom-file">
+                            <input type="file" name="aadhar_img" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Pan Image</label>
+                            <div class="custom-file">
+                            <input type="file" name="pan_img" class="custom-file-input" id="customFile1">
+                            <label class="custom-file-label" for="customFile1">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Business Shop Image</label>
+                            <div class="custom-file">
+                            <input type="file" name="shop_img" class="custom-file-input" id="customFile2">
+                            <label class="custom-file-label" for="customFile2">Choose file</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -142,7 +148,7 @@ $('body').on('click', '#submitButton', function () {
     var busi_address = $("#busi_address").val();
     var password = $("#password").val();
     var confirmPassword = $("#con_pwd").val();
-    var service = $('#service').val();
+    var mobile_no = $('#mobile_no').val();
     // alert(service);
     if (owner_name=="") {
         $("#owner_err").fadeIn().html("Required");
@@ -180,10 +186,10 @@ $('body').on('click', '#submitButton', function () {
         $("#busi_address").focus();
         return false;
     }
-    if (service=="") {
-        $("#service_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#service_err").fadeOut(); }, 3000);
-        $("#service").focus();
+    if (mobile_no=="") {
+        $("#mobile_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#mobile_err").fadeOut(); }, 3000);
+        $("#mobile_no").focus();
         return false;
     }
     if (password=="") {

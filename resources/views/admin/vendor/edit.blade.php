@@ -61,7 +61,10 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        
+                        <div class="form-group">
+                            <label for="mobile_no">Mobile No.</label> <span  style="color:red" id="mobile_err"> </span>
+                            <input type="number" name="mobile_no" class="form-control" id="mobile_no" placeholder="Enter Mobile No." value="{{ $vendor->mobile_no }}">
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
