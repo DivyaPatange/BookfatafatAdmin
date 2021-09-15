@@ -1,6 +1,6 @@
-@extends('vendor.vendor_layout.main')
-@section('title', 'Placed Order')
-@section('page_title', 'Placed Order List')
+@extends('admin.admin_layout.main')
+@section('title', 'Confirmed Order')
+@section('page_title', 'Confirmed Order List')
 @section('customcss')
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
@@ -60,10 +60,9 @@ tr.shown td.details-control:before{
                             <th>User Name</th>
                             <th>Mobile No.</th>
                             <th>Order No.</th>
+                            <th>Product Count</th>
                             <th>Total Price</th>
                             <th>Payment Status</th>
-                            <th>Action</th>
-                            <th>Order Status</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -72,10 +71,9 @@ tr.shown td.details-control:before{
                             <th>User Name</th>
                             <th>Mobile No.</th>
                             <th>Order No.</th>
+                            <th>Product Count</th>
                             <th>Total Price</th>
                             <th>Payment Status</th>
-                            <th>Action</th>
-                            <th>Order Status</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -99,8 +97,20 @@ $(document).ready(function() {
     $('.js-example').select2();
 
 });
-var SITEURL = '{{ route('vendor.all-orders')}}';
-
+var SITEURL = '{{ route('admin.confirmed-order')}}';
+function format ( d ) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width:100%">'+
+        '<tr>'+
+            '<td style="text-align:center">Action</td>'+
+            '<td style="text-align:center">'+d.action+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="text-align:center">Invoice</td>'+
+            '<td style="text-align:center">'+d.invoice_file+'</td>'+
+        '</tr>'+
+    '</table>';
+}
 $(document).ready(function() {
     var table =$('#dataTableHover').DataTable({
         processing: true,
@@ -119,70 +129,52 @@ $(document).ready(function() {
             { data: 'user_name', name: 'user_name' },
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'order_number', name: 'order_number' },
+            { data: 'item_count', name: 'item_count' },
             { data: 'grand_total', name: 'grand_total' },
             { data: 'payment_status', name: 'payment_status' },
-            { data: 'action', name: 'action' },
-            { data: 'order_status', name: 'order_status' },
         ],
         order: [[0, 'desc']]
     })
+    $('#dataTableHover tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    });
 });
 
-$('body').on('click', '.confirmed', function () {
-    var id = $(this).data("id");
-    // alert(id);
-    if(id){
-        $.ajax({
-            type: "post",
-            url: "{{ url('vendors/order-confirmed') }}"+'/'+id,
-            success: function (data) {
-            var oTable = $('#dataTableHover').dataTable(); 
-            oTable.fnDraw(false);
-            toastr.success(data.success);
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
+$('#service').change(function(){
+  var serviceID = $(this).val();  
+    //   alert(serviceID);
+  if(serviceID){
+    $.ajax({
+      type:"GET",
+      url:"{{url('/admin/get-category-list')}}?service_id="+serviceID,
+      success:function(res){        
+      if(res){
+        $("#category").empty();
+        $("#category").append('<option value="">Select Category</option>');
+        $.each(res,function(key,value){
+          $("#category").append('<option value="'+key+'">'+value+'</option>');
         });
-    }
-});
-
-$('body').on('click', '.confirmed', function () {
-    var id = $(this).data("id");
-    if(id){
-        $.ajax({
-            type: "post",
-            url: "{{ url('vendors/order-confirmed') }}",
-            data: { id:id },
-            success: function (data) {
-            var oTable = $('#dataTableHover').dataTable(); 
-            oTable.fnDraw(false);
-            toastr.success(data.success);
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        });
-    }
-});
-
-$('body').on('click', '.rejected', function () {
-    var id = $(this).data("id");
-    if(id){
-        $.ajax({
-            type: "post",
-            url: "{{ url('vendors/order-rejected') }}",
-            data: { id:id },
-            success: function (data) {
-            var oTable = $('#dataTableHover').dataTable(); 
-            oTable.fnDraw(false);
-            toastr.success(data.success);
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        });
-    }
+      
+      }else{
+        $("#category").empty();
+      }
+      }
+    });
+  }else{
+    $("#category").empty();
+  }   
 });
 </script>
 @endsection

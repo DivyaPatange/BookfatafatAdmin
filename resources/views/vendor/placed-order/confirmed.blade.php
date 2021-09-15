@@ -1,6 +1,6 @@
 @extends('vendor.vendor_layout.main')
-@section('title', 'Placed Order')
-@section('page_title', 'Placed Order List')
+@section('title', 'Confirmed Order')
+@section('page_title', 'Confirmed Order List')
 @section('customcss')
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
@@ -63,7 +63,7 @@ tr.shown td.details-control:before{
                             <th>Total Price</th>
                             <th>Payment Status</th>
                             <th>Action</th>
-                            <th>Order Status</th>
+                            <th>Shipping Status</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -75,7 +75,7 @@ tr.shown td.details-control:before{
                             <th>Total Price</th>
                             <th>Payment Status</th>
                             <th>Action</th>
-                            <th>Order Status</th>
+                            <th>Shipping Status</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -99,7 +99,7 @@ $(document).ready(function() {
     $('.js-example').select2();
 
 });
-var SITEURL = '{{ route('vendor.all-orders')}}';
+var SITEURL = '{{ url('/vendors/confirmed-order')}}';
 
 $(document).ready(function() {
     var table =$('#dataTableHover').DataTable({
@@ -122,37 +122,18 @@ $(document).ready(function() {
             { data: 'grand_total', name: 'grand_total' },
             { data: 'payment_status', name: 'payment_status' },
             { data: 'action', name: 'action' },
-            { data: 'order_status', name: 'order_status' },
+            { data: 'ship_status', name: 'ship_status' },
         ],
         order: [[0, 'desc']]
     })
 });
 
-$('body').on('click', '.confirmed', function () {
-    var id = $(this).data("id");
-    // alert(id);
-    if(id){
-        $.ajax({
-            type: "post",
-            url: "{{ url('vendors/order-confirmed') }}"+'/'+id,
-            success: function (data) {
-            var oTable = $('#dataTableHover').dataTable(); 
-            oTable.fnDraw(false);
-            toastr.success(data.success);
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        });
-    }
-});
-
-$('body').on('click', '.confirmed', function () {
+$('body').on('click', '.is-ship', function () {
     var id = $(this).data("id");
     if(id){
         $.ajax({
             type: "post",
-            url: "{{ url('vendors/order-confirmed') }}",
+            url: "{{ url('vendors/ship-status') }}",
             data: { id:id },
             success: function (data) {
             var oTable = $('#dataTableHover').dataTable(); 
@@ -166,23 +147,5 @@ $('body').on('click', '.confirmed', function () {
     }
 });
 
-$('body').on('click', '.rejected', function () {
-    var id = $(this).data("id");
-    if(id){
-        $.ajax({
-            type: "post",
-            url: "{{ url('vendors/order-rejected') }}",
-            data: { id:id },
-            success: function (data) {
-            var oTable = $('#dataTableHover').dataTable(); 
-            oTable.fnDraw(false);
-            toastr.success(data.success);
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        });
-    }
-});
 </script>
 @endsection

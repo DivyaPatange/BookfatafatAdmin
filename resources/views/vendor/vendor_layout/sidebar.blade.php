@@ -45,17 +45,35 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('vendor.placed-order') }}">
+        <a class="nav-link" href="{{ route('vendor.all-orders') }}">
             <i class="fas fa-fw fa-palette"></i>
-            <span>Placed Order</span>
+            <span>All Orders</span>
         </a>
     </li>
-    <!-- <li class="nav-item">
-        <a class="nav-link" href="ui-colors.html">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('vendor.confirmed-order') }}">
             <i class="fas fa-fw fa-palette"></i>
-            <span>Service</span>
+            <span>Confirmed Order</span>
         </a>
-    </li> -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('vendor.shipped-order') }}">
+            <i class="fas fa-fw fa-palette"></i>
+            <span>Shipped Order</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('vendor.delivered-order') }}">
+            <i class="fas fa-fw fa-palette"></i>
+            <span>Delivered Order</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('vendor.rejected-order') }}">
+            <i class="fas fa-fw fa-palette"></i>
+            <span>Rejected Order</span>
+        </a>
+    </li>
     <hr class="sidebar-divider">
     <!--<div class="sidebar-heading">-->
     <!--Examples-->

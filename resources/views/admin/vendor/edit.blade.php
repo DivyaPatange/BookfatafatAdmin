@@ -148,6 +148,7 @@ $('body').on('click', '#submitButton', function () {
     var busi_location = $("#busi_location").val();
     var busi_address = $("#busi_address").val();
     var status = $('#status').val();
+    var mobile_no = $('#mobile_no').val();
     if (owner_name=="") {
         $("#owner_err").fadeIn().html("Required");
         setTimeout(function(){ $("#owner_err").fadeOut(); }, 3000);
@@ -182,6 +183,12 @@ $('body').on('click', '#submitButton', function () {
         $("#address_err").fadeIn().html("Required");
         setTimeout(function(){ $("#address_err").fadeOut(); }, 3000);
         $("#busi_address").focus();
+        return false;
+    }
+    if (mobile_no=="") {
+        $("#mobile_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#mobile_err").fadeOut(); }, 3000);
+        $("#mobile_no").focus();
         return false;
     }
     if (status=="") {

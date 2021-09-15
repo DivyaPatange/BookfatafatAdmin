@@ -88,6 +88,10 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::post('/get-user', [AdminRoleController::class, 'getUser'])->name('get.user');
     Route::post('/users/update', [AdminRoleController::class, 'updateUser']);
     Route::get('/placed-order', [OrderPlacedController::class, 'index'])->name('placed-order');
+    Route::get('/confirmed-order', [OrderPlacedController::class, 'confirmedOrder'])->name('confirmed-order');
+    Route::get('/shipped-order', [OrderPlacedController::class, 'shippedOrder'])->name('shipped-order');
+    Route::get('/delivered-order', [OrderPlacedController::class, 'deliveredOrder'])->name('delivered-order');
+    Route::get('/rejected-order', [OrderPlacedController::class, 'rejectedOrder'])->name('rejected-order');
     Route::get('/view-placed-order/{id}', [OrderPlacedController::class, 'show'])->name('view-placed-order');
     Route::get('/today-register-list', [ListController::class, 'todayRegisterUser'])->name('todayRegisterUser');
     Route::get('/today-placed-order', [ListController::class, 'todayOrderPlaced'])->name('todayOrderPlaced');
@@ -125,9 +129,17 @@ Route::prefix('vendors')->name('vendor.')->group(function() {
     // Change Password Route
     Route::get('/change-password', [ChangePasswordController::class, 'index'])->name('change-password.index');
     Route::post('/change-password/update', [ChangePasswordController::class, 'store'])->name('change-password.update');
-    Route::get('/placed-order', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'index'])->name('placed-order');
+    Route::get('/all-orders', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'allOrders'])->name('all-orders');
     Route::get('/view-placed-order/{id}', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'show'])->name('view-placed-order');
-    Route::post('/is-ship/{id}', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'isShip'])->name('is-ship');
-    Route::post('/is-deliver/{id}', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'isDeliver'])->name('is-deliver');
+    Route::post('/order-confirmed', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'orderConfirmed']);
+    Route::post('/order-rejected', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'orderRejected']);
+
+    Route::get('/confirmed-order', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'confirmedOrderList'])->name('confirmed-order');
+    Route::get('/rejected-order', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'rejectedOrderList'])->name('rejected-order');
+
+    Route::post('/ship-status', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'shippingStatus']);
+    Route::get('/shipped-order', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'shippedOrderList'])->name('shipped-order');
+    Route::post('/deliver-status', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'deliveryStatus']);
+    Route::get('/delivered-order', [App\Http\Controllers\Vendor\OrderPlacedController::class, 'deliveredOrderList'])->name('delivered-order');
 
 });

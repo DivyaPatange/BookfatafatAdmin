@@ -114,10 +114,21 @@
     @endif
     <hr class="sidebar-divider">
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.placed-order') }}">
-            <i class="fas fa-fw fa-palette"></i>
-            <span>Placed Order</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage1" aria-expanded="true"
+            aria-controls="collapsePage1">
+            <i class="fas fa-fw fa-columns"></i>
+            <span>Orders</span>
         </a>
+        <div id="collapsePage1" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Orders</h6>
+                <a class="collapse-item" href="{{ route('admin.placed-order') }}">Placed Order</a>
+                <a class="collapse-item" href="{{ route('admin.confirmed-order') }}">Confirmed Order</a>
+                <a class="collapse-item" href="{{ route('admin.shipped-order') }}">Shipped Order</a>
+                <a class="collapse-item" href="{{ route('admin.delivered-order') }}">Delivered Order</a>
+                <a class="collapse-item" href="{{ route('admin.rejected-order') }}">Rejected Order</a>
+            </div>
+        </div>
     </li>
     <!-- <div class="sidebar-heading">
         Examples

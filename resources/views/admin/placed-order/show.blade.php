@@ -9,8 +9,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-
-.track {
+    .track {
     position: relative;
     background-color: #ddd;
     height: 7px;
@@ -32,7 +31,11 @@
 }
 
 .track .step.active:before {
-    background: #FF5722
+    background: #43b823;
+}
+
+.track .step.inactive:before {
+    background: #ee5435;
 }
 
 .track .step::before {
@@ -45,6 +48,11 @@
 }
 
 .track .step.active .icon {
+    background: #43b823;
+    color: #fff
+}
+
+.track .step.inactive .icon {
     background: #ee5435;
     color: #fff
 }
@@ -60,6 +68,11 @@
 }
 
 .track .step.active .text {
+    font-weight: 400;
+    color: #000
+}
+
+.track .step.inactive .text {
     font-weight: 400;
     color: #000
 }
@@ -82,7 +95,6 @@
     -ms-flex-negative: 0;
     flex-shrink: 0
 }
-
 </style>
 @endsection
 @section('content')
@@ -105,7 +117,13 @@
 <div class="row">
     <div class="col-12">
         <div class="track">
-            <div class="step @if($order) active @endif"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+        <div class="step @if($order) active @endif"> <span class="icon"> <i class="fa fa-clipboard"></i> </span> <span class="text">Order Placed</span> </div>
+            @if($order->confirmed_at)
+            <div class="step @if($order->confirmed_at) active @endif"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order Confirmed</span> </div>
+            @endif 
+            @if($order->rejected_at)
+            <div class="step @if($order->rejected_at) inactive @endif"> <span class="icon"> <i class="fa fa-times"></i> </span> <span class="text">Order Rejected</span> </div>
+            @endif
             <div class="step @if($order->is_ship == "Yes") active @endif"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
             <div class="step @if($order->is_deliver == "Yes") active @endif"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
         </div>
